@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Go Out With Me? 💖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forestDark: '#1a101f',
+                        forestSecondary: '#231228',
+                        luxuryGold: '#B78A3B',
+                        softGold: '#D0B26C',
+                        romanticPink: '#ff6b8b',
+                        romanticDeepPink: '#ff477e',
+                        cardBg: 'rgba(255, 255, 255, 0.05)',
+                        cardBorder: 'rgba(255, 255, 255, 0.12)',
+                        textPrimary: '#F8F5EE',
+                        textSecondary: '#a39baf',
+                    },
+                    fontFamily: {
+                        cursive: ['Dancing Script', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f0814;
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(255, 107, 139, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(183, 138, 59, 0.1) 0%, transparent 40%);
+            color: #F8F5EE;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(26, 16, 31, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 107, 139, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected {
+            background: rgba(255, 107, 139, 0.12);
+            border-color: #ff6b8b;
+            box-shadow: 0 0 20px rgba(255, 107, 139, 0.25);
+        }
+
+        .heart-particle {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 8s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        .screen-step {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .screen-step.hidden-screen {
+            display: none !important;
+            opacity: 0;
+            transform: scale(0.96) translateY(10px);
+        }
+
+        .pink-glow-btn {
+            background: linear-gradient(135deg, #ff6b8b 0%, #ff477e 100%);
+            box-shadow: 0 6px 20px rgba(255, 71, 126, 0.4);
+            transition: all 0.25s ease;
+        }
+
+        .pink-glow-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 71, 126, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #noBtn {
+            transition: left 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-3 md:p-6 relative">
+
+    <div id="heartParticlesContainer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <main class="w-full max-w-md mx-auto glass-card rounded-3xl p-5 md:p-7 relative z-10 min-h-[640px] flex flex-col justify-between overflow-hidden">
+        
+        <!-- Header & Progress -->
+        <header id="appHeader" class="w-full mb-4">
+            <div class="flex items-center justify-between mb-3 text-xs text-textSecondary font-medium">
+                <button id="backBtn" onclick="goBack()" class="flex items-center gap-1 hover:text-white transition-colors opacity-0 cursor-default" disabled>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    back
+                </button>
+                <span id="stepCounter" class="tracking-widest uppercase text-[10px] text-softGold">Step 1 of 5</span>
+            </div>
+            
+            <div class="grid grid-cols-5 gap-1.5 w-full">
+                <div id="prog-1" class="h-1 rounded-full bg-romanticPink transition-all duration-300"></div>
+                <div id="prog-2" class="h-1 rounded-full bg-white/10 transition-all duration-300"></div>
+                <div id="prog-3" class="h-1 rounded-full bg-white/10 transition-all duration-300"></div>
+                <div id="prog-4" class="h-1 rounded-full bg-white/10 transition-all duration-300"></div>
+                <div id="prog-5" class="h-1 rounded-full bg-white/10 transition-all duration-300"></div>
+            </div>
+        </header>
+
+        <div class="flex-1 flex flex-col justify-center my-auto relative">
+
+            <!-- Screen 1: Proposal -->
+            <section id="screen1" class="screen-step flex flex-col items-center text-center py-2">
+                <div class="w-44 h-44 mb-4 relative flex items-center justify-center">
+                    <!-- Updated Bubu & Dudu First Page Illustration -->
+                    <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">
+                        <!-- Floating hearts -->
+                        <path d="M95 30 C95 20, 105 15, 110 25 C115 15, 125 20, 125 30 C125 40, 110 50, 110 50 C110 50, 95 40, 95 30 Z" fill="#ff477e" class="animate-bounce"/>
+                        <!-- Dudu (Brown Bear sitting shyly) -->
+                        <ellipse cx="125" cy="125" rx="32" ry="35" fill="#a0724e"/>
+                        <circle cx="145" cy="100" r="10" fill="#a0724e"/>
+                        <circle cx="105" cy="115" r="4" fill="#3d2314"/>
+                        <path d="M102 125 Q110 132 118 125" stroke="#3d2314" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <!-- Bubu (White Bear holding heart) -->
+                        <circle cx="65" cy="95" r="12" fill="#ffffff"/>
+                        <circle cx="65" cy="95" r="6" fill="#ffb6c1"/>
+                        <ellipse cx="80" cy="120" rx="30" ry="33" fill="#ffffff"/>
+                        <circle cx="74" cy="104" r="3" fill="#2d2d2d"/>
+                        <circle cx="88" cy="104" r="3" fill="#2d2d2d"/>
+                        <ellipse cx="70" cy="111" rx="5" ry="3" fill="#ff9999" opacity="0.6"/>
+                        <ellipse cx="94" cy="111" rx="5" ry="3" fill="#ff9999" opacity="0.6"/>
+                        <path d="M78 114 Q81 119 84 114" stroke="#2d2d2d" stroke-width="2" fill="none"/>
+                        <!-- Big Heart in Bubu's hands -->
+                        <path d="M80 135 C65 115, 55 125, 75 145 C80 150, 80 150, 85 145 C105 125, 95 115, 80 135 Z" fill="#ff477e"/>
+                    </svg>
+                </div>
+
+                <h1 class="font-cursive text-4xl md:text-5xl text-textPrimary mb-2 drop-shadow-sm">Will you go out with me Omika?</h1>
+                <p class="text-sm text-textSecondary mb-8 font-medium">There is only one right answer.</p>
+
+                <div class="relative w-full flex justify-center items-center gap-4 min-h-[56px]" id="proposalButtonsWrapper">
+                    <button onclick="acceptProposal()" class="pink-glow-btn text-white font-bold py-3 px-8 rounded-full text-lg cursor-pointer transform active:scale-95 transition-all z-10">
+                        Yes!
+                    </button>
+                    
+                    <button id="noBtn" onmouseenter="dodgeNoButton()" onclick="handleNoClick()" class="bg-white/10 hover:bg-white/15 text-white/80 font-medium py-3 px-6 rounded-full text-base transition-all border border-white/10 z-20">
+                        No
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen 1.5: YAAS -->
+            <section id="screen1_5" class="screen-step hidden-screen flex flex-col items-center justify-center text-center py-8">
+                <div class="w-48 h-48 mb-4 relative">
+                    <svg viewBox="0 0 200 200" class="w-full h-full animate-bounce">
+                        <circle cx="100" cy="110" r="50" fill="#ffffff"/>
+                        <circle cx="65" cy="70" r="16" fill="#ffffff"/>
+                        <circle cx="65" cy="70" r="8" fill="#ffb6c1"/>
+                        <circle cx="135" cy="70" r="16" fill="#ffffff"/>
+                        <circle cx="135" cy="70" r="8" fill="#ffb6c1"/>
+                        <path d="M80 100 Q88 90 95 100" stroke="#2d2d2d" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path d="M105 100 Q112 90 120 100" stroke="#2d2d2d" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <circle cx="78" cy="112" r="8" fill="#ff80af" opacity="0.7"/>
+                        <circle cx="122" cy="112" r="8" fill="#ff80af" opacity="0.7"/>
+                        <path d="M92 112 Q100 128 108 112 Z" fill="#ff477e"/>
+                    </svg>
+                </div>
+                <h2 class="font-cursive text-6xl text-romanticPink font-bold tracking-wide drop-shadow-md animate-pulse">YAAS!</h2>
+            </section>
+
+            <!-- Screen 2: When -->
+            <section id="screen2" class="screen-step hidden-screen flex flex-col items-center text-center">
+                <div class="w-32 h-32 mb-2">
+                    <svg viewBox="0 0 160 160" class="w-full h-full">
+                        <path d="M80 140 C20 90, 10 50, 45 30 C65 20, 75 30, 80 40 C85 30, 95 20, 115 30 C150 50, 140 90, 80 140 Z" fill="#ff6b8b"/>
+                        <circle cx="80" cy="50" r="22" fill="#ffffff"/>
+                        <circle cx="64" cy="35" r="7" fill="#ffffff"/>
+                        <circle cx="96" cy="35" r="7" fill="#ffffff"/>
+                        <circle cx="73" cy="48" r="2.5" fill="#2d2d2d"/>
+                        <circle cx="87" cy="48" r="2.5" fill="#2d2d2d"/>
+                    </svg>
+                </div>
+
+                <h2 class="font-cursive text-3xl md:text-4xl text-textPrimary mb-5">Yay! When are you free?</h2>
+
+                <div class="grid grid-cols-3 gap-2.5 w-full mb-4" id="daysGrid">
+                    <button onclick="selectDay('Today', 'Oct 13', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                        <span class="text-xs font-bold text-textPrimary">Today</span>
+                        <span class="text-[10px] text-textSecondary">Oct 13</span>
+                    </button>
+                    <button onclick="selectDay('Tomorrow', 'Oct 14', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                        <span class="text-xs font-bold text-textPrimary">Tomorrow</span>
+                        <span class="text-[10px] text-textSecondary">Oct 14</span>
+                    </button>
+                    <button onclick="selectDay('Thursday', 'Oct 15', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                        <span class="text-xs font-bold text-textPrimary">Thursday (AIRPORT)</span>
+                        <span class="text-[10px] text-textSecondary">Oct 15</span>
+                    </button>
+                    <button onclick="selectDay('Friday', 'Oct 16', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                        <span class="text-xs font-bold text-textPrimary">Don't let me go</span>
+                        <span class="text-[10px] text-textSecondary">Oct 16</span>
+                    </button>
+                    <button onclick="selectDay('Saturday', 'Oct 17', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                        <span class="text-xs font-bold text-textPrimary">All day with you</span>
+                        <span class="text-[10px] text-textSecondary">Oct 17</span>
+                    </button>
+                    <button onclick="selectDay('Surprise me', 'you choose', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                        <span class="text-xs font-bold text-romanticPink">Surprise me</span>
+                        <span class="text-[10px] text-textSecondary">you choose</span>
+                    </button>
+                </div>
+
+                <div id="timeSection" class="w-full transition-all duration-500 opacity-0 transform translate-y-4 pointer-events-none">
+                    <p class="text-xs text-textSecondary mb-3 font-medium">and around...</p>
+                    <div class="grid grid-cols-2 gap-2.5 w-full" id="timesGrid">
+                        <button onclick="selectTime('Morning', '10:30 am', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
+                            <span class="text-lg">☀️</span>
+                            <div class="text-left">
+                                <p class="text-xs font-bold text-textPrimary">Morning</p>
+                                <p class="text-[10px] text-textSecondary">10:30</p>
+                            </div>
+                        </button>
+                        <button onclick="selectTime('Afternoon', '3:00 pm', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
+                            <span class="text-lg">🌤️</span>
+                            <div class="text-left">
+                                <p class="text-xs font-bold text-textPrimary">Afternoon</p>
+                                <p class="text-[10px] text-textSecondary">3:00</p>
+                            </div>
+                        </button>
+                        <button onclick="selectTime('Evening', '7:00 pm', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
+                            <span class="text-lg">🌅</span>
+                            <div class="text-left">
+                                <p class="text-xs font-bold text-textPrimary">Evening</p>
+                                <p class="text-[10px] text-textSecondary">7:00</p>
+                            </div>
+                        </button>
+                        <button onclick="selectTime('Late night', '9:30 pm', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
+                            <span class="text-lg">🌙</span>
+                            <div class="text-left">
+                                <p class="text-xs font-bold text-textPrimary">Late night</p>
+                                <p class="text-[10px] text-textSecondary">9:30</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screen 3: Where -->
+            <section id="screen3" class="screen-step hidden-screen flex flex-col items-center text-center">
+                <div class="w-36 h-36 mb-2">
+                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                        <circle cx="80" cy="110" r="32" fill="#a0724e"/>
+                        <circle cx="105" cy="85" r="10" fill="#a0724e"/>
+                        <circle cx="115" cy="105" r="30" fill="#ffffff"/>
+                        <circle cx="130" cy="85" r="10" fill="#ffffff"/>
+                    </svg>
+                </div>
+
+                <h2 class="font-cursive text-3xl md:text-4xl text-textPrimary mb-5">And where are we going?</h2>
+
+                <div class="grid grid-cols-2 gap-3 w-full">
+                    <button onclick="selectOption('where', 'Coffee', 'the good little place', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">☕</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Coffee</p>
+                            <p class="text-[10px] text-textSecondary">the good little place</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('where', 'Lunch', 'somewhere peaceful', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">&#128764;</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Skate</p>
+                            <p class="text-[10px] text-textSecondary">somewhere peaceful</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('where', 'Botanical Garden', 'you pick, I\'ll allow it', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🌸</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Botanical Garden</p>
+                            <p class="text-[10px] text-textSecondary">you pick, I'll allow it</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('where', 'Archery', 'until it\'s a bull\'s eye', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🎯</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Archery</p>
+                            <p class="text-[10px] text-textSecondary">until it's a bull's eye</p>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen 4: Bring -->
+            <section id="screen4" class="screen-step hidden-screen flex flex-col items-center text-center">
+                <div class="w-36 h-36 mb-2">
+                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                        <circle cx="100" cy="110" r="40" fill="#ffffff"/>
+                        <circle cx="70" cy="75" r="12" fill="#ffffff"/>
+                        <circle cx="130" cy="75" r="12" fill="#ffffff"/>
+                    </svg>
+                </div>
+
+                <h2 class="font-cursive text-3xl md:text-4xl text-textPrimary mb-5">And what should I bring?</h2>
+
+                <div class="grid grid-cols-2 gap-3 w-full">
+                    <button onclick="selectOption('bring', 'Flowers', 'obviously', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🌸</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Flowers</p>
+                            <p class="text-[10px] text-textSecondary">obviously</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('bring', 'Something sweet', 'for the walk after', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🧁</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Something sweet</p>
+                            <p class="text-[10px] text-textSecondary">for the walk after</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('bring', 'Hand sanitizer', 'Hehe', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🧴</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Hand sanitizer</p>
+                            <p class="text-[10px] text-textSecondary">Hehe</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('bring', 'Just me', 'bold, but fair', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">💖</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Just me</p>
+                            <p class="text-[10px] text-textSecondary">bold, but fair</p>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen 5: Then -->
+            <section id="screen5" class="screen-step hidden-screen flex flex-col items-center text-center">
+                <div class="w-36 h-36 mb-2">
+                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                        <circle cx="75" cy="110" r="32" fill="#ffffff"/>
+                        <circle cx="125" cy="110" r="35" fill="#a0724e"/>
+                    </svg>
+                </div>
+
+                <h2 class="font-cursive text-3xl md:text-4xl text-textPrimary mb-5">And then?</h2>
+
+                <div class="grid grid-cols-2 gap-3 w-full">
+                    <button onclick="selectOption('then', 'Lunch', 'obviously', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🍨</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Lunch</p>
+                            <p class="text-[10px] text-textSecondary">obviously</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('then', 'A drive', 'Fresh air', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🚗</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">A drive</p>
+                            <p class="text-[10px] text-textSecondary">Fresh air</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('then', 'Adventure', 'exciting times', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">💋</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Adventure</p>
+                            <p class="text-[10px] text-textSecondary">Exciting times</p>
+                        </div>
+                    </button>
+                    <button onclick="selectOption('then', 'Not going home', 'not yet, anyway', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
+                        <span class="text-xl">🏠</span>
+                        <div>
+                            <p class="text-xs font-bold text-textPrimary">Not going home</p>
+                            <p class="text-[10px] text-textSecondary">not yet, anyway</p>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen 6: Ticket Pass -->
+            <section id="screen6" class="screen-step hidden-screen flex flex-col items-center text-center">
+                <h2 class="font-cursive text-4xl text-textPrimary mb-4">It's a.....</h2>
+
+                <div class="w-full bg-[#fff0f3] text-gray-800 rounded-2xl p-4 flex shadow-2xl relative overflow-hidden mb-4 text-left">
+                    <div class="w-1/3 flex flex-col items-center justify-center border-r-2 border-dashed border-pink-200 pr-2">
+                        <div class="w-16 h-16 mb-1">
+                            <svg viewBox="0 0 100 100" class="w-full h-full">
+                                <circle cx="50" cy="50" r="35" fill="#ffffff"/>
+                                <circle cx="35" cy="30" r="10" fill="#ffffff"/>
+                                <circle cx="65" cy="30" r="10" fill="#ffffff"/>
+                            </svg>
+                        </div>
+                        <span class="text-[9px] font-bold tracking-widest text-pink-500 uppercase">ADMIT TWO</span>
+                        <span class="text-[8px] text-pink-300">no. 5264</span>
+                    </div>
+
+                    <div class="w-2/3 pl-3.5 flex flex-col justify-center space-y-1">
+                        <div class="text-[9px] font-bold tracking-widest text-pink-500 uppercase">DATE PASS</div>
+                        <div class="text-[11px] grid grid-cols-3 gap-1">
+                            <span class="text-gray-400 font-semibold">WHEN</span>
+                            <span id="sumWhen" class="col-span-2 font-bold text-gray-800">Saturday, Aug 8</span>
+                        </div>
+                        <div class="text-[11px] grid grid-cols-3 gap-1">
+                            <span class="text-gray-400 font-semibold">TIME</span>
+                            <span id="sumTime" class="col-span-2 font-bold text-gray-800">Evening · 7:00 pm</span>
+                        </div>
+                        <div class="text-[11px] grid grid-cols-3 gap-1">
+                            <span class="text-gray-400 font-semibold">WHERE</span>
+                            <span id="sumWhere" class="col-span-2 font-bold text-gray-800">Coffee</span>
+                        </div>
+                        <div class="text-[11px] grid grid-cols-3 gap-1">
+                            <span class="text-gray-400 font-semibold">BRING</span>
+                            <span id="sumBring" class="col-span-2 font-bold text-gray-800">Flowers</span>
+                        </div>
+                        <div class="text-[11px] grid grid-cols-3 gap-1">
+                            <span class="text-gray-400 font-semibold">THEN</span>
+                            <span id="sumThen" class="col-span-2 font-bold text-gray-800">Stargazing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5 text-center">
+                    <p class="text-[10px] tracking-widest text-textSecondary uppercase mb-0.5">STARTS IN</p>
+                    <p id="countdownTimer" class="font-mono text-softGold font-bold text-lg tracking-wider">2D 07:12:44</p>
+                </div>
+
+                <div class="flex gap-3 w-full">
+                    <button id="calendarBtn" onclick="openCalendarModal()" class="flex-1 bg-romanticPink hover:bg-romanticDeepPink text-white font-semibold py-3 px-3 rounded-full text-xs transition-all flex items-center justify-center gap-1.5 shadow-lg">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span id="calBtnText">Add to calendar</span>
+                    </button>
+                    <button onclick="shareToWhatsApp()" class="flex-1 bg-white/10 hover:bg-white/15 text-white font-semibold py-3 px-3 rounded-full text-xs border border-white/20 transition-all flex items-center justify-center gap-1.5">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        Share
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+        <div id="toastNotification" class="w-full text-center mt-3 hidden">
+            <span class="inline-block bg-white/10 backdrop-blur-md text-textPrimary text-[11px] px-4 py-1.5 rounded-full border border-white/10 shadow-md">
+                Saved — see you then 💖
+            </span>
+        </div>
+    </main>
+
+    <!-- Fully Functional Calendar Modal -->
+    <div id="calendarModal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-card w-full max-w-xs rounded-3xl p-5 text-center relative transform scale-95 transition-transform duration-300" id="calendarModalCard">
+            <p class="text-[9px] tracking-widest text-textSecondary uppercase font-bold mb-1">ADDING TO YOUR CALENDAR</p>
+            
+            <!-- Month & Year Navigation Header -->
+            <div class="flex items-center justify-between mb-3 px-2">
+                <button onclick="changeMonth(-1)" class="text-textSecondary hover:text-white px-2 py-1 text-sm font-bold">&larr;</button>
+                <h3 id="calMonthYearTitle" class="font-cursive text-3xl text-romanticPink">August 2026</h3>
+                <button onclick="changeMonth(1)" class="text-textSecondary hover:text-white px-2 py-1 text-sm font-bold">&rarr;</button>
+            </div>
+
+            <div class="grid grid-cols-7 gap-1 text-[10px] font-bold text-textSecondary mb-2">
+                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+            </div>
+
+            <!-- Dynamic Days Grid -->
+            <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-xs mb-5"></div>
+
+            <p class="text-xs text-textPrimary mb-1">It's in. <span id="calTextDetail" class="text-romanticPink font-bold">Saturday, Aug 8, 7:00 pm.</span></p>
+            <p class="text-[11px] text-textSecondary mb-5">I'll be counting down with you.</p>
+
+            <button onclick="confirmCalendarSave()" class="w-full pink-glow-btn text-white font-bold py-2.5 rounded-full text-xs cursor-pointer">
+                See you there
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const dateInviteData = {
+            day: 'Saturday',
+            date: 'Aug 8',
+            time: 'Evening',
+            timeSlot: '7:00 pm',
+            where: 'Coffee',
+            whereDesc: 'the good little place',
+            bring: 'Flowers',
+            bringDesc: 'obviously',
+            then: 'Stargazing',
+            thenDesc: 'if it stays clear'
+        };
+
+        let currentStep = 1;
+        let noDodgeStage = 0;
+        const noTexts = ["No", "Think again...", "Are you sure?", "Really?", "Wait, reconsider!", "Pretty please? 🥺", "Don't do this!"];
+
+        let currentCalendarYear = 2026;
+        let currentCalendarMonth = 7; // August (0-indexed)
+        let selectedCalendarDay = 8;
+
+        window.onload = function() {
+            createFloatingHearts();
+            startCountdownTimer();
+            renderCalendar(currentCalendarYear, currentCalendarMonth);
+        };
+
+        function createFloatingHearts() {
+            const container = document.getElementById('heartParticlesContainer');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle text-romanticPink';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.fontSize = (Math.random() * 14 + 10) + 'px';
+                heart.innerHTML = '💖';
+                container.appendChild(heart);
+            }
+        }
+
+        // Sequential & Randomized "No" Button Dodge & Text Changer
+        function dodgeNoButton() {
+            const btn = document.getElementById('noBtn');
+            if (noDodgeStage < noTexts.length - 1) {
+                noDodgeStage++;
+            } else {
+                noDodgeStage = Math.floor(Math.random() * (noTexts.length - 1)) + 1;
+            }
+            btn.innerText = noTexts[noDodgeStage];
+
+            const wrapper = document.getElementById('proposalButtonsWrapper');
+            const randomX = (Math.random() - 0.5) * 220;
+            const randomY = (Math.random() - 0.5) * 160;
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function handleNoClick() {
+            dodgeNoButton();
+        }
+
+        function acceptProposal() {
+            confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+            switchScreen(1, 1.5);
+            setTimeout(() => { switchScreen(1.5, 2); }, 1600);
+        }
+
+        function switchScreen(fromStep, toStep) {
+            const currentEl = document.getElementById(fromStep === 1.5 ? 'screen1_5' : `screen${fromStep}`);
+            const nextEl = document.getElementById(toStep === 1.5 ? 'screen1_5' : `screen${toStep}`);
+
+            if (currentEl) currentEl.classList.add('hidden-screen');
+            if (nextEl) nextEl.classList.remove('hidden-screen');
+
+            currentStep = toStep;
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const backBtn = document.getElementById('backBtn');
+            const counter = document.getElementById('stepCounter');
+
+            if (currentStep > 1 && currentStep <= 6) {
+                backBtn.style.opacity = '1';
+                backBtn.disabled = false;
+                backBtn.style.cursor = 'pointer';
+            } else {
+                backBtn.style.opacity = '0';
+                backBtn.disabled = true;
+            }
+
+            if (currentStep >= 2 && currentStep <= 6) {
+                counter.innerText = `Step ${Math.min(currentStep - 1, 5)} of 5`;
+            }
+
+            for (let i = 1; i <= 5; i++) {
+                const bar = document.getElementById(`prog-${i}`);
+                if (i <= Math.max(1, currentStep - 1)) {
+                    bar.className = 'h-1 rounded-full bg-romanticPink transition-all duration-300';
+                } else {
+                    bar.className = 'h-1 rounded-full bg-white/10 transition-all duration-300';
+                }
+            }
+        }
+
+        function goBack() {
+            if (currentStep > 2) {
+                switchScreen(currentStep, currentStep - 1);
+            } else if (currentStep === 2) {
+                switchScreen(2, 1);
+            }
+        }
+
+        function selectDay(dayName, dateStr, element) {
+            dateInviteData.day = dayName;
+            dateInviteData.date = dateStr;
+
+            document.querySelectorAll('#daysGrid .option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            const timeSec = document.getElementById('timeSection');
+            timeSec.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        }
+
+        function selectTime(timeName, timeSlotStr, element) {
+            dateInviteData.time = timeName;
+            dateInviteData.timeSlot = timeSlotStr;
+
+            document.querySelectorAll('#timesGrid .option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            setTimeout(() => { switchScreen(2, 3); }, 300);
+        }
+
+        function selectOption(category, title, desc, element) {
+            dateInviteData[category] = title;
+            dateInviteData[category + 'Desc'] = desc;
+
+            const parentGrid = element.parentElement;
+            parentGrid.querySelectorAll('.option-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            setTimeout(() => {
+                if (category === 'where') switchScreen(3, 4);
+                if (category === 'bring') switchScreen(4, 5);
+                if (category === 'then') {
+                    updateSummaryTicket();
+                    switchScreen(5, 6);
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                }
+            }, 350);
+        }
+
+        function updateSummaryTicket() {
+            document.getElementById('sumWhen').innerText = `${dateInviteData.day}, ${dateInviteData.date}`;
+            document.getElementById('sumTime').innerText = `${dateInviteData.time} · ${dateInviteData.timeSlot}`;
+            document.getElementById('sumWhere').innerText = dateInviteData.where;
+            document.getElementById('sumBring').innerText = dateInviteData.bring;
+            document.getElementById('sumThen').innerText = dateInviteData.then;
+
+            document.getElementById('calTextDetail').innerText = `${dateInviteData.day}, ${dateInviteData.date}, ${dateInviteData.timeSlot}.`;
+        }
+
+        // Fully Interactive Calendar Functions
+        function renderCalendar(year, month) {
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('calMonthYearTitle').innerText = `${monthNames[month]} ${year}`;
+
+            const grid = document.getElementById('calendarDaysGrid');
+            grid.innerHTML = '';
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const adjustedFirstDay = (firstDayIndex + 6) % 7; // Start on Monday
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < adjustedFirstDay; i++) {
+                const emptySpan = document.createElement('span');
+                emptySpan.className = 'p-1 opacity-15';
+                grid.appendChild(emptySpan);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const daySpan = document.createElement('span');
+                daySpan.className = 'p-1 text-white/80 cursor-pointer hover:bg-white/10 rounded-lg transition-colors';
+                daySpan.innerText = day;
+
+                if (year === currentCalendarYear && month === currentCalendarMonth && day === selectedCalendarDay) {
+                    daySpan.className = 'p-1 bg-romanticPink text-white font-bold rounded-lg shadow-lg shadow-pink-500/50 scale-110';
+                }
+
+                daySpan.onclick = () => {
+                    selectedCalendarDay = day;
+                    currentCalendarYear = year;
+                    currentCalendarMonth = month;
+
+                    const dateObj = new Date(year, month, day);
+                    const weekday = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+                    const monthShort = dateObj.toLocaleDateString('en-US', { month: 'short' });
+                    
+                    dateInviteData.day = weekday;
+                    dateInviteData.date = `${monthShort} ${day}`;
+
+                    document.getElementById('calTextDetail').innerText = `${weekday}, ${monthShort} ${day}, ${dateInviteData.timeSlot}.`;
+                    renderCalendar(year, month);
+                };
+
+                grid.appendChild(daySpan);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentCalendarMonth += direction;
+            if (currentCalendarMonth > 11) {
+                currentCalendarMonth = 0;
+                currentCalendarYear++;
+            } else if (currentCalendarMonth < 0) {
+                currentCalendarMonth = 11;
+                currentCalendarYear--;
+            }
+            renderCalendar(currentCalendarYear, currentCalendarMonth);
+        }
+
+        function openCalendarModal() {
+            const modal = document.getElementById('calendarModal');
+            const card = document.getElementById('calendarModalCard');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+        }
+
+        function confirmCalendarSave() {
+            const modal = document.getElementById('calendarModal');
+            const card = document.getElementById('calendarModalCard');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.add('scale-95');
+
+            const calBtn = document.getElementById('calendarBtn');
+            calBtn.className = 'flex-1 bg-emerald-500 text-white font-semibold py-3 px-3 rounded-full text-xs transition-all flex items-center justify-center gap-1.5 shadow-lg';
+            document.getElementById('calBtnText').innerText = '✓ In your calendar';
+
+            const toast = document.getElementById('toastNotification');
+            toast.classList.remove('hidden');
+
+            updateSummaryTicket();
+        }
+
+        // WhatsApp Share with correct phone number
+        function shareToWhatsApp() {
+            const phone = "9779863940803";
+            const message = `Hey! It's a date! 💖%0A%0A` +
+                `📅 *When:* ${dateInviteData.day}, ${dateInviteData.date}%0A` +
+                `⏰ *Time:* ${dateInviteData.time} · ${dateInviteData.timeSlot}%0A` +
+                `📍 *Where:* ${dateInviteData.where} (${dateInviteData.whereDesc})%0A` +
+                `🎁 *Bring:* ${dateInviteData.bring} (${dateInviteData.bringDesc})%0A` +
+                `✨ *Then:* ${dateInviteData.then} (${dateInviteData.thenDesc})`;
+
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        }
+
+        function startCountdownTimer() {
+            let hours = 55;
+            let minutes = 12;
+            let seconds = 44;
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                    }
+                }
+                const days = Math.floor(hours / 24);
+                const remHours = hours % 24;
+                
+                const formatNum = n => n < 10 ? '0' + n : n;
+                document.getElementById('countdownTimer').innerText = `${days}D ${formatNum(remHours)}:${formatNum(minutes)}:${formatNum(seconds)}`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
