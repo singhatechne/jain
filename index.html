@@ -142,16 +142,12 @@
             <!-- Screen 1: Proposal -->
             <section id="screen1" class="screen-step flex flex-col items-center text-center py-2">
                 <div class="w-44 h-44 mb-4 relative flex items-center justify-center">
-                    <!-- Updated Bubu & Dudu First Page Illustration -->
                     <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">
-                        <!-- Floating hearts -->
                         <path d="M95 30 C95 20, 105 15, 110 25 C115 15, 125 20, 125 30 C125 40, 110 50, 110 50 C110 50, 95 40, 95 30 Z" fill="#ff477e" class="animate-bounce"/>
-                        <!-- Dudu (Brown Bear sitting shyly) -->
                         <ellipse cx="125" cy="125" rx="32" ry="35" fill="#a0724e"/>
                         <circle cx="145" cy="100" r="10" fill="#a0724e"/>
                         <circle cx="105" cy="115" r="4" fill="#3d2314"/>
                         <path d="M102 125 Q110 132 118 125" stroke="#3d2314" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <!-- Bubu (White Bear holding heart) -->
                         <circle cx="65" cy="95" r="12" fill="#ffffff"/>
                         <circle cx="65" cy="95" r="6" fill="#ffb6c1"/>
                         <ellipse cx="80" cy="120" rx="30" ry="33" fill="#ffffff"/>
@@ -160,7 +156,6 @@
                         <ellipse cx="70" cy="111" rx="5" ry="3" fill="#ff9999" opacity="0.6"/>
                         <ellipse cx="94" cy="111" rx="5" ry="3" fill="#ff9999" opacity="0.6"/>
                         <path d="M78 114 Q81 119 84 114" stroke="#2d2d2d" stroke-width="2" fill="none"/>
-                        <!-- Big Heart in Bubu's hands -->
                         <path d="M80 135 C65 115, 55 125, 75 145 C80 150, 80 150, 85 145 C105 125, 95 115, 80 135 Z" fill="#ff477e"/>
                     </svg>
                 </div>
@@ -214,25 +209,25 @@
                 <h2 class="font-cursive text-3xl md:text-4xl text-textPrimary mb-5">Yay! When are you free?</h2>
 
                 <div class="grid grid-cols-3 gap-2.5 w-full mb-4" id="daysGrid">
-                    <button onclick="selectDay('Today', 'Oct 13', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                    <button onclick="selectDay('Today', 'Sep 13', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
                         <span class="text-xs font-bold text-textPrimary">Today</span>
-                        <span class="text-[10px] text-textSecondary">Oct 13</span>
+                        <span class="text-[10px] text-textSecondary">Sep 13</span>
                     </button>
-                    <button onclick="selectDay('Tomorrow', 'Oct 14', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                    <button onclick="selectDay('Tomorrow', 'Sep 14', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
                         <span class="text-xs font-bold text-textPrimary">Tomorrow</span>
-                        <span class="text-[10px] text-textSecondary">Oct 14</span>
+                        <span class="text-[10px] text-textSecondary">Sep 14</span>
                     </button>
-                    <button onclick="selectDay('Thursday', 'Oct 15', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                    <button onclick="selectDay('Thursday', 'Sep 15', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
                         <span class="text-xs font-bold text-textPrimary">Thursday (AIRPORT)</span>
-                        <span class="text-[10px] text-textSecondary">Oct 15</span>
+                        <span class="text-[10px] text-textSecondary">Sep 15</span>
                     </button>
-                    <button onclick="selectDay('Friday', 'Oct 16', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                    <button onclick="selectDay('Friday', 'Sep 16', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
                         <span class="text-xs font-bold text-textPrimary">Don't let me go</span>
-                        <span class="text-[10px] text-textSecondary">Oct 16</span>
+                        <span class="text-[10px] text-textSecondary">Sep 16</span>
                     </button>
-                    <button onclick="selectDay('Saturday', 'Oct 17', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
+                    <button onclick="selectDay('Saturday', 'Sep 17', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
                         <span class="text-xs font-bold text-textPrimary">All day with you</span>
-                        <span class="text-[10px] text-textSecondary">Oct 17</span>
+                        <span class="text-[10px] text-textSecondary">Sep 17</span>
                     </button>
                     <button onclick="selectDay('Surprise me', 'you choose', this)" class="option-card p-3 rounded-2xl flex flex-col items-center">
                         <span class="text-xs font-bold text-romanticPink">Surprise me</span>
@@ -244,28 +239,28 @@
                     <p class="text-xs text-textSecondary mb-3 font-medium">and around...</p>
                     <div class="grid grid-cols-2 gap-2.5 w-full" id="timesGrid">
                         <button onclick="selectTime('Morning', '10:30 am', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
-                            <span class="text-lg">☀️</span>
+                            <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">☀️</div>
                             <div class="text-left">
                                 <p class="text-xs font-bold text-textPrimary">Morning</p>
                                 <p class="text-[10px] text-textSecondary">10:30</p>
                             </div>
                         </button>
                         <button onclick="selectTime('Afternoon', '3:00 pm', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
-                            <span class="text-lg">🌤️</span>
+                            <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🌤️</div>
                             <div class="text-left">
                                 <p class="text-xs font-bold text-textPrimary">Afternoon</p>
                                 <p class="text-[10px] text-textSecondary">3:00</p>
                             </div>
                         </button>
                         <button onclick="selectTime('Evening', '7:00 pm', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
-                            <span class="text-lg">🌅</span>
+                            <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🌅</div>
                             <div class="text-left">
                                 <p class="text-xs font-bold text-textPrimary">Evening</p>
                                 <p class="text-[10px] text-textSecondary">7:00</p>
                             </div>
                         </button>
                         <button onclick="selectTime('Late night', '9:30 pm', this)" class="option-card p-2.5 rounded-2xl flex items-center gap-3">
-                            <span class="text-lg">🌙</span>
+                            <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🌙</div>
                             <div class="text-left">
                                 <p class="text-xs font-bold text-textPrimary">Late night</p>
                                 <p class="text-[10px] text-textSecondary">9:30</p>
@@ -275,14 +270,23 @@
                 </div>
             </section>
 
-            <!-- Screen 3: Where -->
+            <!-- Screen 3: Where (Cute Bubu & Dudu Hugging Animation SVG) -->
             <section id="screen3" class="screen-step hidden-screen flex flex-col items-center text-center">
-                <div class="w-36 h-36 mb-2">
-                    <svg viewBox="0 0 200 200" class="w-full h-full">
-                        <circle cx="80" cy="110" r="32" fill="#a0724e"/>
-                        <circle cx="105" cy="85" r="10" fill="#a0724e"/>
-                        <circle cx="115" cy="105" r="30" fill="#ffffff"/>
-                        <circle cx="130" cy="85" r="10" fill="#ffffff"/>
+                <div class="w-36 h-36 mb-2 relative flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+                        <!-- Floating hearts -->
+                        <path d="M100 35 C100 25, 110 20, 115 30 C120 20, 130 25, 130 35 C130 45, 115 55, 115 55 C115 55, 100 45, 100 35 Z" fill="#ff477e" class="animate-bounce"/>
+                        <!-- Dudu (Brown Bear) -->
+                        <ellipse cx="115" cy="120" rx="32" ry="35" fill="#a0724e"/>
+                        <circle cx="138" cy="95" r="10" fill="#a0724e"/>
+                        <circle cx="120" cy="110" r="3" fill="#3d2314"/>
+                        <!-- Bubu (White Bear hugging Dudu) -->
+                        <circle cx="65" cy="95" r="12" fill="#ffffff"/>
+                        <circle cx="65" cy="95" r="6" fill="#ffb6c1"/>
+                        <ellipse cx="85" cy="120" rx="30" ry="33" fill="#ffffff"/>
+                        <circle cx="78" cy="105" r="3" fill="#2d2d2d"/>
+                        <circle cx="92" cy="105" r="3" fill="#2d2d2d"/>
+                        <path d="M85 112 Q88 117 91 112" stroke="#2d2d2d" stroke-width="2" fill="none"/>
                     </svg>
                 </div>
 
@@ -290,28 +294,28 @@
 
                 <div class="grid grid-cols-2 gap-3 w-full">
                     <button onclick="selectOption('where', 'Coffee', 'the good little place', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">☕</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">☕</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Coffee</p>
                             <p class="text-[10px] text-textSecondary">the good little place</p>
                         </div>
                     </button>
                     <button onclick="selectOption('where', 'Lunch', 'somewhere peaceful', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">&#128764;</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">&#x1F6FC;</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Skate</p>
                             <p class="text-[10px] text-textSecondary">somewhere peaceful</p>
                         </div>
                     </button>
                     <button onclick="selectOption('where', 'Botanical Garden', 'you pick, I\'ll allow it', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🌸</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🌸</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Botanical Garden</p>
                             <p class="text-[10px] text-textSecondary">you pick, I'll allow it</p>
                         </div>
                     </button>
                     <button onclick="selectOption('where', 'Archery', 'until it\'s a bull\'s eye', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🎯</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🎯</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Archery</p>
                             <p class="text-[10px] text-textSecondary">until it's a bull's eye</p>
@@ -320,13 +324,23 @@
                 </div>
             </section>
 
-            <!-- Screen 4: Bring -->
+            <!-- Screen 4: Bring (Cute Bubu with Boba Tea SVG Animation) -->
             <section id="screen4" class="screen-step hidden-screen flex flex-col items-center text-center">
-                <div class="w-36 h-36 mb-2">
-                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                <div class="w-36 h-36 mb-2 relative flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+                        <!-- White bear with Boba Cup -->
                         <circle cx="100" cy="110" r="40" fill="#ffffff"/>
                         <circle cx="70" cy="75" r="12" fill="#ffffff"/>
+                        <circle cx="70" cy="75" r="6" fill="#ffb6c1"/>
                         <circle cx="130" cy="75" r="12" fill="#ffffff"/>
+                        <circle cx="130" cy="75" r="6" fill="#ffb6c1"/>
+                        <circle cx="90" cy="102" r="3" fill="#2d2d2d"/>
+                        <circle cx="110" cy="102" r="3" fill="#2d2d2d"/>
+                        <ellipse cx="83" cy="109" rx="5" ry="3" fill="#ff9999" opacity="0.6"/>
+                        <ellipse cx="117" cy="109" rx="5" ry="3" fill="#ff9999" opacity="0.6"/>
+                        <!-- Boba cup in hands -->
+                        <path d="M85 115 L115 115 L110 155 L90 155 Z" fill="#fde047" opacity="0.9"/>
+                        <line x1="100" y1="95" x2="100" y2="140" stroke="#ff477e" stroke-width="4"/>
                     </svg>
                 </div>
 
@@ -334,28 +348,28 @@
 
                 <div class="grid grid-cols-2 gap-3 w-full">
                     <button onclick="selectOption('bring', 'Flowers', 'obviously', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🌸</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🌸</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Flowers</p>
                             <p class="text-[10px] text-textSecondary">obviously</p>
                         </div>
                     </button>
                     <button onclick="selectOption('bring', 'Something sweet', 'for the walk after', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🧁</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🧁</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Something sweet</p>
                             <p class="text-[10px] text-textSecondary">for the walk after</p>
                         </div>
                     </button>
                     <button onclick="selectOption('bring', 'Hand sanitizer', 'Hehe', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🧴</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🧴</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Hand sanitizer</p>
                             <p class="text-[10px] text-textSecondary">Hehe</p>
                         </div>
                     </button>
                     <button onclick="selectOption('bring', 'Just me', 'bold, but fair', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">💖</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">💖</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Just me</p>
                             <p class="text-[10px] text-textSecondary">bold, but fair</p>
@@ -364,12 +378,21 @@
                 </div>
             </section>
 
-            <!-- Screen 5: Then -->
+            <!-- Screen 5: Then (Cute Bubu & Dudu Cozy Side-by-Side SVG Animation) -->
             <section id="screen5" class="screen-step hidden-screen flex flex-col items-center text-center">
-                <div class="w-36 h-36 mb-2">
-                    <svg viewBox="0 0 200 200" class="w-full h-full">
-                        <circle cx="75" cy="110" r="32" fill="#ffffff"/>
-                        <circle cx="125" cy="110" r="35" fill="#a0724e"/>
+                <div class="w-36 h-36 mb-2 relative flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+                        <!-- White Bear (Bubu) -->
+                        <circle cx="70" cy="90" r="12" fill="#ffffff"/>
+                        <ellipse cx="80" cy="115" rx="30" ry="33" fill="#ffffff"/>
+                        <circle cx="72" cy="102" r="3" fill="#2d2d2d"/>
+                        <circle cx="86" cy="102" r="3" fill="#2d2d2d"/>
+                        <!-- Brown Bear (Dudu leaning on Bubu) -->
+                        <circle cx="130" cy="95" r="10" fill="#a0724e"/>
+                        <ellipse cx="120" cy="120" rx="32" ry="35" fill="#a0724e"/>
+                        <circle cx="112" cy="108" r="3" fill="#3d2314"/>
+                        <!-- Sparkles / Little hearts -->
+                        <path d="M100 50 C100 42, 108 38, 112 45 C116 38, 124 42, 124 50 C124 58, 112 65, 112 65 C112 65, 100 58, 100 50 Z" fill="#ff6b8b"/>
                     </svg>
                 </div>
 
@@ -377,28 +400,28 @@
 
                 <div class="grid grid-cols-2 gap-3 w-full">
                     <button onclick="selectOption('then', 'Lunch', 'obviously', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🍨</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🍨</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Lunch</p>
                             <p class="text-[10px] text-textSecondary">obviously</p>
                         </div>
                     </button>
                     <button onclick="selectOption('then', 'A drive', 'Fresh air', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🚗</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">&#x1F3CD;</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">A drive</p>
                             <p class="text-[10px] text-textSecondary">Fresh air</p>
                         </div>
                     </button>
                     <button onclick="selectOption('then', 'Adventure', 'exciting times', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">💋</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">💋</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Adventure</p>
                             <p class="text-[10px] text-textSecondary">Exciting times</p>
                         </div>
                     </button>
                     <button onclick="selectOption('then', 'Not going home', 'not yet, anyway', this)" class="option-card p-3.5 rounded-2xl text-left flex flex-col justify-between h-24">
-                        <span class="text-xl">🏠</span>
+                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base">🏠</div>
                         <div>
                             <p class="text-xs font-bold text-textPrimary">Not going home</p>
                             <p class="text-[10px] text-textSecondary">not yet, anyway</p>
@@ -409,16 +432,12 @@
 
             <!-- Screen 6: Ticket Pass -->
             <section id="screen6" class="screen-step hidden-screen flex flex-col items-center text-center">
-                <h2 class="font-cursive text-4xl text-textPrimary mb-4">It's a.....</h2>
+                <h2 class="font-cursive text-4xl text-textPrimary mb-4">It's a .....</h2>
 
                 <div class="w-full bg-[#fff0f3] text-gray-800 rounded-2xl p-4 flex shadow-2xl relative overflow-hidden mb-4 text-left">
                     <div class="w-1/3 flex flex-col items-center justify-center border-r-2 border-dashed border-pink-200 pr-2">
-                        <div class="w-16 h-16 mb-1">
-                            <svg viewBox="0 0 100 100" class="w-full h-full">
-                                <circle cx="50" cy="50" r="35" fill="#ffffff"/>
-                                <circle cx="35" cy="30" r="10" fill="#ffffff"/>
-                                <circle cx="65" cy="30" r="10" fill="#ffffff"/>
-                            </svg>
+                        <div class="w-16 h-16 mb-1 rounded-full overflow-hidden">
+                            <img src="chibi.png" alt="Bubu illustration" class="w-full h-full object-cover">
                         </div>
                         <span class="text-[9px] font-bold tracking-widest text-pink-500 uppercase">ADMIT TWO</span>
                         <span class="text-[8px] text-pink-300">no. 5264</span>
@@ -428,7 +447,7 @@
                         <div class="text-[9px] font-bold tracking-widest text-pink-500 uppercase">DATE PASS</div>
                         <div class="text-[11px] grid grid-cols-3 gap-1">
                             <span class="text-gray-400 font-semibold">WHEN</span>
-                            <span id="sumWhen" class="col-span-2 font-bold text-gray-800">Saturday, Aug 8</span>
+                            <span id="sumWhen" class="col-span-2 font-bold text-gray-800">Sunday, Sep 13</span>
                         </div>
                         <div class="text-[11px] grid grid-cols-3 gap-1">
                             <span class="text-gray-400 font-semibold">TIME</span>
@@ -475,15 +494,14 @@
         </div>
     </main>
 
-    <!-- Fully Functional Calendar Modal -->
+    <!-- Calendar Modal initialized to September 13, 2026 -->
     <div id="calendarModal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="glass-card w-full max-w-xs rounded-3xl p-5 text-center relative transform scale-95 transition-transform duration-300" id="calendarModalCard">
             <p class="text-[9px] tracking-widest text-textSecondary uppercase font-bold mb-1">ADDING TO YOUR CALENDAR</p>
             
-            <!-- Month & Year Navigation Header -->
             <div class="flex items-center justify-between mb-3 px-2">
                 <button onclick="changeMonth(-1)" class="text-textSecondary hover:text-white px-2 py-1 text-sm font-bold">&larr;</button>
-                <h3 id="calMonthYearTitle" class="font-cursive text-3xl text-romanticPink">August 2026</h3>
+                <h3 id="calMonthYearTitle" class="font-cursive text-3xl text-romanticPink">September 2026</h3>
                 <button onclick="changeMonth(1)" class="text-textSecondary hover:text-white px-2 py-1 text-sm font-bold">&rarr;</button>
             </div>
 
@@ -491,10 +509,9 @@
                 <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
             </div>
 
-            <!-- Dynamic Days Grid -->
             <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-xs mb-5"></div>
 
-            <p class="text-xs text-textPrimary mb-1">It's in. <span id="calTextDetail" class="text-romanticPink font-bold">Saturday, Aug 8, 7:00 pm.</span></p>
+            <p class="text-xs text-textPrimary mb-1">It's in. <span id="calTextDetail" class="text-romanticPink font-bold">Sunday, Sep 13, 7:00 pm.</span></p>
             <p class="text-[11px] text-textSecondary mb-5">I'll be counting down with you.</p>
 
             <button onclick="confirmCalendarSave()" class="w-full pink-glow-btn text-white font-bold py-2.5 rounded-full text-xs cursor-pointer">
@@ -505,8 +522,8 @@
 
     <script>
         const dateInviteData = {
-            day: 'Saturday',
-            date: 'Aug 8',
+            day: 'Sunday',
+            date: 'Sep 13',
             time: 'Evening',
             timeSlot: '7:00 pm',
             where: 'Coffee',
@@ -521,9 +538,10 @@
         let noDodgeStage = 0;
         const noTexts = ["No", "Think again...", "Are you sure?", "Really?", "Wait, reconsider!", "Pretty please? 🥺", "Don't do this!"];
 
+        // Default calendar set to September 2026, 13th
         let currentCalendarYear = 2026;
-        let currentCalendarMonth = 7; // August (0-indexed)
-        let selectedCalendarDay = 8;
+        let currentCalendarMonth = 8; // September (0-indexed)
+        let selectedCalendarDay = 13;
 
         window.onload = function() {
             createFloatingHearts();
@@ -544,7 +562,6 @@
             }
         }
 
-        // Sequential & Randomized "No" Button Dodge & Text Changer
         function dodgeNoButton() {
             const btn = document.getElementById('noBtn');
             if (noDodgeStage < noTexts.length - 1) {
@@ -666,7 +683,6 @@
             document.getElementById('calTextDetail').innerText = `${dateInviteData.day}, ${dateInviteData.date}, ${dateInviteData.timeSlot}.`;
         }
 
-        // Fully Interactive Calendar Functions
         function renderCalendar(year, month) {
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             document.getElementById('calMonthYearTitle').innerText = `${monthNames[month]} ${year}`;
@@ -675,7 +691,7 @@
             grid.innerHTML = '';
 
             const firstDayIndex = new Date(year, month, 1).getDay();
-            const adjustedFirstDay = (firstDayIndex + 6) % 7; // Start on Monday
+            const adjustedFirstDay = (firstDayIndex + 6) % 7;
             const totalDays = new Date(year, month + 1, 0).getDate();
 
             for (let i = 0; i < adjustedFirstDay; i++) {
@@ -748,10 +764,9 @@
             updateSummaryTicket();
         }
 
-        // WhatsApp Share with correct phone number
         function shareToWhatsApp() {
             const phone = "9779863940803";
-            const message = `Hey! It's a date! 💖%0A%0A` +
+            const message = `Hey! It's a special day with you! 💖%0A%0A` +
                 `📅 *When:* ${dateInviteData.day}, ${dateInviteData.date}%0A` +
                 `⏰ *Time:* ${dateInviteData.time} · ${dateInviteData.timeSlot}%0A` +
                 `📍 *Where:* ${dateInviteData.where} (${dateInviteData.whereDesc})%0A` +
